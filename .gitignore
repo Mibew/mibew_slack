@@ -5,6 +5,5 @@ node_modules
 release
 
 # Do not include composer products
-composer.json
-composer.lock
-vender/
+composer.*
+vendor/
