@@ -27,7 +27,7 @@ class Plugin extends \Mibew\Plugin\AbstractPlugin implements \Mibew\Plugin\Plugi
     {
         return true;
     }
-    
+
         public function run()
     {
         $dispatcher = EventDispatcher::getInstance();
@@ -42,9 +42,9 @@ class Plugin extends \Mibew\Plugin\AbstractPlugin implements \Mibew\Plugin\Plugi
             'link_names' => true
         ];
 
-        $client = new Client('https://hooks.slack.com/services/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', $settings);
+        $client = new Client($this->config['slack_url'], $settings);
 
-        
+
         $client->send(date('Y-m-d H:i:s') . ' - You have a new user waiting for a response. Username: ' . $args['thread']->userName);
     }
 
