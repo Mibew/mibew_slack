@@ -9,34 +9,26 @@ var fs = require('fs'),
     gzip = require('gulp-gzip'),
     rename = require('gulp-rename');
 
-// Get and install PHP Composer
-gulp.task('get-composer', function(callback) {
-    // Check if Composer already in place
-    if (fs.existsSync('./composer.phar')) {
-        callback(null);
+var composer = require("gulp-composer"),
+    gutils = require("gulp-util");
 
-        return;
-    }
+// ...
 
-    // Get installer from the internet
-    https.get('https://getcomposer.org/installer', function(response) {
-        // Run PHP to install Composer
-        var php = exec('php', function(error, stdout, stderr) {
-            callback(error ? stderr : null);
-        });
-        // Pass installer code to PHP via STDIN
-        response.pipe(php.stdin);
+composer("init", { "no-interaction": true });
+composer('require maknz/slack', {});
+
+if (gutils.env.production) {
+    composer({
+        "bin":          "/build/share/composer.phar",
+        "no-ansi":      true,
+        "self-install": false,
     });
-});
+} else {
+    //default install
+    composer();
+}
 
-// Install Composer dependencies
-gulp.task('composer-install', ['get-composer'], function(callback) {
-    exec('php -d "suhosin.executor.include.whitelist = phar" composer.phar install --no-dev', function(error, stdout, stderr) {
-        callback(error ? stderr : null);
-    });
-});
-
-gulp.task('prepare-release', ['composer-install'], function() {
+gulp.task('prepare-release', function() {
     var version = require('./package.json').version;
 
     return eventStream.merge(
@@ -65,8 +57,7 @@ var getSources = function() {
             'Plugin.php',
             'README.md',
             'LICENSE',
-            'db/.htaccess',
-            'vendor/**/*.*'
+            './vendor/**/*.*'
         ],
         {base: './'}
     )
