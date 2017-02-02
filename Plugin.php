@@ -28,7 +28,7 @@ class Plugin extends \Mibew\Plugin\AbstractPlugin implements \Mibew\Plugin\Plugi
         return true;
     }
 
-        public function run()
+    public function run()
     {
         $dispatcher = EventDispatcher::getInstance();
         $dispatcher->attachListener(Events::THREAD_CREATE, $this, 'sendSlackNotification');
@@ -37,9 +37,9 @@ class Plugin extends \Mibew\Plugin\AbstractPlugin implements \Mibew\Plugin\Plugi
     public function sendSlackNotification(&$args)
     {
         $settings = [
-            'username' => $this->config['username'],
-            'channel' => '#' . $this->config['channel'],
-            'link_names' => true
+            'username'      => $this->config['username'],
+            'channel'       => '#' . $this->config['channel'],
+            'link_names'    => true
         ];
 
         $client = new Client($this->config['slack_url'], $settings);
