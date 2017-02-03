@@ -9,24 +9,52 @@ var fs = require('fs'),
     gzip = require('gulp-gzip'),
     rename = require('gulp-rename');
 
-var composer = require("gulp-composer"),
-    gutils = require("gulp-util");
+    var config = {
+        getComposerUrl: 'https://getcomposer.org/installer',
+        phpBin: 'php -d "suhosin.executor.include.whitelist = phar"',
+        package: require('./composer.json')
+    }
 
-// ...
+// Cleans all built files
+gulp.task('clean', function(callback) {
+    del([
+        'release',
+    ], callback);
+});
 
-composer("init", { "no-interaction": true });
-composer('require maknz/slack', {});
+    // Get and install PHP Composer
+gulp.task('get-composer', function(callback) {
+    // Check if Composer already in place
+    if (fs.existsSync('./composer.phar')) {
+        callback(null);
 
-if (gutils.env.production) {
-    composer({
-        "bin":          "/build/share/composer.phar",
-        "no-ansi":      true,
-        "self-install": false,
+        return;
+    }
+
+    // Get installer from the internet
+    https.get(config.getComposerUrl, function(response) {
+        // Run PHP to install Composer
+        var php = exec(config.phpBin, function(error, stdout, stderr) {
+            callback(error ? stderr : null);
+        });
+        // Pass installer code to PHP via STDIN
+        response.pipe(php.stdin);
     });
-} else {
-    //default install
-    composer();
-}
+});
+
+// Install Composer dependencies excluding development ones
+gulp.task('composer-install', ['get-composer'], function(callback) {
+    exec(config.phpBin + ' composer.phar install --no-dev', function(error, stdout, stderr) {
+        callback(error ? stderr : null);
+    });
+});
+
+// Install all Composer dependencies
+gulp.task('composer-install-dev', ['get-composer'], function(callback) {
+    exec(config.phpBin + ' composer.phar install', function(error, stdout, stderr) {
+        callback(error ? stderr : null);
+    });
+});
 
 gulp.task('prepare-release', function() {
     var version = require('./package.json').version;
@@ -43,7 +71,7 @@ gulp.task('prepare-release', function() {
 });
 
 // Builds and packs plugins sources
-gulp.task('default', ['prepare-release'], function() {
+gulp.task('default', ['composer-install','prepare-release'], function() {
     // The "default" task is just an alias for "prepare-release" task.
 });
 
