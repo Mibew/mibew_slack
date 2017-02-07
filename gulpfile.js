@@ -85,7 +85,7 @@ var getSources = function() {
             'Plugin.php',
             'README.md',
             'LICENSE',
-            './vendor/**/*.*'
+            'vendor/**/*.*'
         ],
         {base: './'}
     )
