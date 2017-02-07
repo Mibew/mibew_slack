@@ -5,5 +5,4 @@ node_modules
 release
 
 # Do not include composer products
-composer.*
 vendor/
