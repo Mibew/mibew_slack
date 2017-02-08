@@ -10,13 +10,15 @@ Provides Slack notifications when initiate a chat
 
 3. Put files of the plugins to the `<Mibew root>/plugins`  folder.
 
-4. Obtain a webhook key from Slack. Go to slack, open your app directory, click on Manage, click on Custom Integrations
+4. Obtain a webhook key from Slack:
 
-5. Click on App Configuration. Choose the channel it should post to, click on Add Incoming Webhook Integration
+    a. Go to Slack.com , open your app directory, find and enter Incoming WebHooks app, click on Add Configuration
 
-6. Copy the Webhook URL
+    b. Click on App Configuration. Choose the Channel it should post to, click on Add Incoming Webhook Integration
 
-7. Add plugins config to plugins structure like below.
+    c. Copy the Webhook URL
+
+5. Add plugins config to plugins structure like below.
 
     ```yaml
     plugins:
