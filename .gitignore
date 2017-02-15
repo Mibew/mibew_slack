@@ -6,3 +6,8 @@ release
 
 # Do not include composer products
 vendor/
+
+# Do not index composer files
+composer.phar
+composer.lock
+
