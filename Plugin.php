@@ -22,18 +22,28 @@ class Plugin extends \Mibew\Plugin\AbstractPlugin implements \Mibew\Plugin\Plugi
         // Use autoloader for Composer's packages that shipped with the plugin
         require(__DIR__ . '/vendor/autoload.php');
     }
-
+	/**
+	 * Initializer
+	 * @return boolean
+	 */
     public function initialized()
     {
         return true;
     }
-
+	/**
+	 * This creates the listener that listens for new
+	 * threads to send out slack notifications
+	 */
     public function run()
     {
         $dispatcher = EventDispatcher::getInstance();
         $dispatcher->attachListener(Events::THREAD_CREATE, $this, 'sendSlackNotification');
     }
-
+	/**
+	 * Sends notification to slack.
+	 * Sends the date with the username as well
+	 * @return boolean
+	 */
     public function sendSlackNotification(&$args)
     {
         $settings = [
@@ -46,6 +56,8 @@ class Plugin extends \Mibew\Plugin\AbstractPlugin implements \Mibew\Plugin\Plugi
 
 
         $client->send(date('Y-m-d H:i:s') . ' - You have a new user waiting for a response. Username: ' . $args['thread']->userName);
+
+		return true;
     }
 
     /**
