@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/dmcdaniel12/mibew_slack.png?label=ready&title=Ready)](https://waffle.io/dmcdaniel12/mibew_slack)
 # Mibew Slack plugin
 
 Provides Slack notifications when initiate a chat
