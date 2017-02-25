@@ -27,8 +27,6 @@ Provides Slack notifications when initiate a chat
             username: 	"Username you will post as"
             channel: 	"Channel to post in"
             slack_url: 	"Webhook URL from Setup Instructions in Slack"
-			message:	"You have a new visitor!"
-
     ```
 
 
