@@ -24,10 +24,9 @@ Provides Slack notifications when initiate a chat
     ```yaml
     plugins:
         "Mibew:Slack": # Plugin's configurations are described below
-            username: 	"Username you will post as"
-            channel: 	"Channel to post in"
-            slack_url: 	"Webhook URL from Setup Instructions in Slack"
-
+            username:	"Username you will post as"
+            channel:	"Channel to post in"
+            slack_url:	"Webhook URL from Setup Instructions in Slack"
     ```
 
 
