@@ -54,7 +54,6 @@ class Plugin extends \Mibew\Plugin\AbstractPlugin implements \Mibew\Plugin\Plugi
 
         $client = new Client($this->config['slack_url'], $settings);
 
-
         $client->send(getlocal('You have a new user waiting for a response. Username: {0}', array($args['thread']->userName)));
 
         return true;
