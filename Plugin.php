@@ -55,7 +55,7 @@ class Plugin extends \Mibew\Plugin\AbstractPlugin implements \Mibew\Plugin\Plugi
         $client = new Client($this->config['slack_url'], $settings);
 
 
-        $client->send($this->config['message']);
+        $client->send(getlocal('You have a new message waiting for you!'));
 
 		return true;
     }
