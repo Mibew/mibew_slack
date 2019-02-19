@@ -60,7 +60,7 @@ class Plugin extends \Mibew\Plugin\AbstractPlugin implements \Mibew\Plugin\Plugi
     }
 
     /**
-     * Returns pluing's version.
+     * Returns plugin's version.
      *
      * @return string
      */
