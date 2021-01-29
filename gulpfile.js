@@ -43,18 +43,18 @@ gulp.task('get-composer', function(callback) {
 });
 
 // Install Composer dependencies excluding development ones
-gulp.task('composer-install', ['get-composer'], function(callback) {
+gulp.task('composer-install', gulp.series('get-composer', function(callback) {
     exec(config.phpBin + ' composer.phar install --no-dev', function(error, stdout, stderr) {
         callback(error ? stderr : null);
     });
-});
+}));
 
 // Install all Composer dependencies
-gulp.task('composer-install-dev', ['get-composer'], function(callback) {
+gulp.task('composer-install-dev', gulp.series('get-composer', function(callback) {
     exec(config.phpBin + ' composer.phar install', function(error, stdout, stderr) {
         callback(error ? stderr : null);
     });
-});
+}));
 
 gulp.task('prepare-release', function() {
     var version = require('./package.json').version;
@@ -66,14 +66,12 @@ gulp.task('prepare-release', function() {
             .pipe(tar('slack-' + version + '.tar'))
             .pipe(gzip())
     )
-    .pipe(chmod(644))
+    .pipe(chmod(0644))
     .pipe(gulp.dest('release'));
 });
 
 // Builds and packs plugins sources
-gulp.task('default', ['composer-install','prepare-release'], function() {
-    // The "default" task is just an alias for "prepare-release" task.
-});
+gulp.task('default', gulp.series('composer-install','prepare-release'));
 
 /**
  * Returns files stream with the plugin sources.
